@@ -1,2 +1,3 @@
 # SQL-Programming
-SQL Development Algorithms
+
+SQL HackerRank & CodeFights Algorithms
