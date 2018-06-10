@@ -1,0 +1,13 @@
+/*
+A median is defined as a number separating the higher half of a data set from the lower half. Query the median of the Northern Latitudes (LAT_N) from STATION and round your answer to 4 decimal places.
+*/
+
+SELECT (COUNT(LAT_N)/2) AS MID INTO #StationMidPoint FROM Station
+
+SELECT CAST(MAX(LAT_N)AS DECIMAL (24,4)) FROM Station
+WHERE LAT_N NOT IN
+    (
+        SELECT TOP (SELECT MID FROM #StationMidPoint) LAT_N 
+        FROM Station
+        ORDER BY LAT_N DESC
+    )
