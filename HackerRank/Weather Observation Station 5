@@ -15,20 +15,16 @@ Note
 You can write two separate queries to get the desired output. It need not be a single query.
 */
 
-SELECT Top 1 City, LEN(City) AS CityLength
-FROM Station
-WHERE Len(City) =
-    (
-        SELECT MAX(LEN(City))
-        FROM Station
-    )
-ORDER BY City
-
-SELECT Top 1 City, LEN(City) AS CityLength
-FROM Station
-WHERE Len(City) =
-    (
-        SELECT MIN(LEN(City))
-        FROM Station
-    )
-ORDER BY City
+SELECT CITY, cityLength FROM (
+    SELECT TOP 1 STATION.CITY
+                , LEN(STATION.CITY) AS 'cityLength'
+    FROM STATION 
+    ORDER BY LEN(STATION.CITY) DESC, STATION.CITY ASC
+) Longest
+UNION
+SELECT CITY, cityLength FROM (
+    SELECT TOP 1 STATION.CITY
+                , LEN(STATION.CITY) AS 'cityLength'
+    FROM STATION 
+    ORDER BY LEN(STATION.CITY) ASC, STATION.CITY ASC
+) Shortest
