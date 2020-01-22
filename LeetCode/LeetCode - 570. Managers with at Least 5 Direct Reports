@@ -1,0 +1,29 @@
+/*
+The Employee table holds all employees including their managers. Every employee has an Id, and there is also a column for the manager Id.
+
++------+----------+-----------+----------+
+|Id    |Name 	  |Department |ManagerId |
++------+----------+-----------+----------+
+|101   |John 	  |A 	      |null      |
+|102   |Dan 	  |A 	      |101       |
+|103   |James 	  |A 	      |101       |
+|104   |Amy 	  |A 	      |101       |
+|105   |Anne 	  |A 	      |101       |
+|106   |Ron 	  |B 	      |101       |
++------+----------+-----------+----------+
+Given the Employee table, write a SQL query that finds out managers with at least 5 direct report. For the above table, your SQL query should return:
+
++-------+
+| Name  |
++-------+
+| John  |
++-------+
+*/
+
+WITH CTE AS (
+SELECT ManagerId, COUNT(Id) AS employee_cnt FROM Employee
+GROUP BY ManagerId)
+
+SELECT Name FROM Employee E
+JOIN CTE C ON C.ManagerId = E.Id
+WHERE C.employee_cnt >= 5
