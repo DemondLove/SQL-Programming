@@ -43,13 +43,12 @@ FROM (
                     hacker_id
                     , name
                     , cnt
-
+                    , RANK() OVER(ORDER BY cnt DESC) AS rnk
                 FROM (
                         SELECT
                             H.hacker_id
                             , H.name
                             , COUNT(C.challenge_id) AS cnt
-                            , RANK(COUNT(C.challenge_id)) OVER(PARTITION BY H.hacker_id, H.name ORDER BY cnt DESC) AS rnk
                         FROM Hackers H
                             JOIN Challenges C ON H.hacker_id=C.hacker_id
                         GROUP BY H.hacker_id, H.name
